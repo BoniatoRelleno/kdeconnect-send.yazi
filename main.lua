@@ -21,21 +21,21 @@ end
 
 -- Sync block to fetch selected file paths
 local get_selected_paths = ya.sync(function()
-	local tab = cx.active
-	local selected = tab.selected
-	local paths = {}
+    local tab = cx.active
+    local paths = {}
 
-	if #selected == 0 then
-		local h = tab.current.hovered
-		if h then
-			table.insert(paths, tostring(h.url))
-		end
-	else
-		for url, _ in pairs(selected) do
-			table.insert(paths, tostring(url))
-		end
-	end
-	return paths
+    if #tab.selected > 0 then
+        for _, file in pairs(tab.selected) do
+            table.insert(paths, tostring(file.url))
+        end
+    else
+        local h = tab.current.hovered
+        if h then
+            table.insert(paths, tostring(h.url))
+        end
+    end
+
+    return paths
 end)
 
 return {
